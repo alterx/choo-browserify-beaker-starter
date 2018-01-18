@@ -1,0 +1,60 @@
+{
+  "name": "choo-beaker-starter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch:css": "catw -c 'lessc -' 'index.less' -o bundles/bundle.css",
+    "watch:js": "watchify index.js -dv -t node-lessify -t envify -p [ split-require --dir bundles --public bundles] -o bundles/bundle.js ",
+    "build:css": "lessc index.less --clean-css bundles/bundle.css",
+    "build:js": "NODE_ENV=production node ./scripts/build.js",
+    "dev": "npm run clean && npm run watch:js & npm run watch:css",
+    "clean": "node scripts/clean.js",
+    "build": "npm run clean && npm run build:css && npm run build:js",
+    "deploy": "dat sync --no-ignoreHidden",
+    "precommit": "lint-staged"
+  },
+  "browserify": {
+    "transform": [
+      "aliasify"
+    ]
+  },
+  "aliasify": {
+    "aliases": {
+      "app": "./",
+      "stores": "./stores",
+      "utils": "./utils",
+      "views": "./views"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json,css,less}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "aliasify": "^2.1.0",
+    "browserify": "^15.2.0",
+    "catw": "^1.0.1",
+    "choo-devtools": "^2.3.3",
+    "dat": "^13.9.2",
+    "envify": "^4.1.0",
+    "find-remove": "^1.2.0",
+    "husky": "^0.14.3",
+    "less": "^2.7.3",
+    "less-plugin-clean-css": "^1.5.1",
+    "lint-staged": "^6.0.0",
+    "node-lessify": "^0.1.5",
+    "prettier": "^1.10.2",
+    "split-require": "^2.0.3",
+    "tinyify": "^2.4.0",
+    "watchify": "^3.9.0",
+    "yo-yoify": "^4.3.0"
+  },
+  "dependencies": {
+    "choo": "^6.7.0"
+  }
+}
